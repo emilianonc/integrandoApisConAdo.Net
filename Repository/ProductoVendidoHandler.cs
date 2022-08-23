@@ -110,6 +110,39 @@ namespace Emiliano_Chiapponi
 
 
 
+        public static bool EliminarProductoVendido(long idProducto) // Eliminar ProductoVendido: Método que recibe un idProducto y debe eliminar todos los ProductoVendido con dicho Id de la base de datos
+        {
+            bool resultado = false; // Creo una variable tipo bool que va a indicar si se pudo o no eliminar los ProductoVendido.
+            int rowsAffected = 0;   // Variable que indica la cantidad de filas que fueron afectadas al realizar ExecuteNonQuery()
+
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString)) // Creo un objeto de tipo SqlConnection con el connectionString de mi BD
+            {
+                string queryUpdate = "DELETE FROM [SistemaGestion].[dbo].[ProductoVendido] " + // Query que me permite eliminar todas las filar con IdProducto = idProducto
+                                        "WHERE IdProducto = @idProducto";
+
+                var parameterIdProducto = new SqlParameter("idProducto", SqlDbType.BigInt); // Creo un nuevo objeto SqlParameter, de tipo BigInt, para expecificar "@idProducto".
+                parameterIdProducto.Value = idProducto;                                     // Asigno valor a sqlParameter
+
+                sqlConnection.Open(); // Abro la conexión con la BD
+
+                using (SqlCommand sqlCommand = new SqlCommand(queryUpdate, sqlConnection)) // Creo un objeto SqlCommand con una query que selecciona todas las columnas de la tabla Producto.
+                {
+                    sqlCommand.Parameters.Add(parameterIdProducto);
+                    rowsAffected = sqlCommand.ExecuteNonQuery();
+                }
+                sqlConnection.Close(); // Cierro la conexión con la BD
+            }
+
+            if (rowsAffected >= 1)
+            {
+                resultado = true;
+            }
+
+            return resultado;
+        }
+
+
+
         /*public List<ProductoVendido> TraerProductosVendidos() // Método que trae todos los productos vendidos de la BD
         {
             List<ProductoVendido> productosVendidos = new List<ProductoVendido>(); // Creo una lista de objetos de clase ProductoVendido. Va a ser lo que devuelva el método

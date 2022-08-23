@@ -164,5 +164,43 @@ namespace Emiliano_Chiapponi
 
             return resultado;
         }
+
+
+
+        public static List<Usuario> TraerUsuarios() // Traer Usuarios: Método que trae todos los Usuarios de la BD.
+        {
+            List<Usuario> usuarios = new List<Usuario>(); // Creo una lista de objetos de clase Usuario. Va a ser lo que devuelva el método.
+
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString)) // Creo un objeto de tipo SqlConnection con el connectionString de mi BD.
+            {
+                using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [SistemaGestion].[dbo].[Usuario]", sqlConnection)) // Creo un objeto SqlCommand con una query que selecciona todas las filas de la tabla Usuario.
+                {
+                    sqlConnection.Open(); // Abro la conexión con la BD.
+
+                    using (SqlDataReader dataReader = sqlCommand.ExecuteReader()) // Creo objeto SqlDataReader para ir explorando la BD.
+                    {
+                        if (dataReader.HasRows)
+                        {
+                            while (dataReader.Read()) // Me aseguro que haya filas para leer y leo una fila.
+                            {
+                                Usuario usuario = new Usuario();
+
+                                // Actualizo todos los atributos de Usuario con los valores obtenidos de la BD.
+                                usuario.id = Convert.ToInt64(dataReader["Id"]);
+                                usuario.nombre = dataReader["Nombre"].ToString();
+                                usuario.apellido = dataReader["Apellido"].ToString();
+                                usuario.nombreUsuario = dataReader["NombreUsuario"].ToString();
+                                usuario.contraseña = dataReader["Contraseña"].ToString();
+                                usuario.mail = dataReader["Mail"].ToString();
+
+                                usuarios.Add(usuario);
+                            }
+                        }
+                    }
+                    sqlConnection.Close(); // Cierro la conexión con la BD.
+                }
+            }
+            return usuarios;
+        }
     }
 }

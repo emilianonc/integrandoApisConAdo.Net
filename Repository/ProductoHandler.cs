@@ -234,7 +234,7 @@ namespace Emiliano_Chiapponi
 
 
 
-        public static bool EliminarProducto(Producto producto) // Eliminar Producto: Método que recibe un id de producto a eliminar y debe eliminarlo de la base de datos
+        public static bool EliminarProducto(long id) // Eliminar Producto: Método que recibe un id de producto a eliminar y debe eliminarlo de la base de datos
                                                         // (eliminar antes sus productos vendidos también, sino no lo podrá hacer).
         {
             bool resultado = false; // Creo una variable tipo bool que va a indicar si se pudo o no crear el producto.
@@ -246,7 +246,7 @@ namespace Emiliano_Chiapponi
                                         "WHERE Id = @id";
 
                 var parameterId = new SqlParameter("id", SqlDbType.BigInt); // Creo un nuevo objeto SqlParameter, de tipo BigInt, para expecificar "@id".
-                parameterId.Value = producto.id;                            // Asigno valor a sqlParameter
+                parameterId.Value = id;                            // Asigno valor a sqlParameter
 
                 sqlConnection.Open(); // Abro la conexión con la BD
 
