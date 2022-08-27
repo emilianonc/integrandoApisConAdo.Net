@@ -8,12 +8,13 @@ namespace Emiliano_Chiapponi.Controllers
 
     public class ProductoController : ControllerBase
     {
-        // Probado desde Postman: OK (Devuelve los 6 productos en BD y un "200 OK")
-        // (GET "http://localhost:5232/Producto" Body none)
-        [HttpGet(Name = "TraerProductos")] // No se reciben argumentos desde la URL. El cuerpo de la petición siempre está vacío.
-        public List<Producto> TraerProductos()
+        // Probado desde Postman: (Devuelve los 2 productos en BD que tienen IdUsuario = 2 y un "200 OK")
+        // (GET "http://localhost:5232/Producto" Params KEY = idUsuario, VALUE = 2)
+        // GET http://localhost:5232/Producto?idUsuario=2
+        [HttpGet(Name = "TraerProductosConIdUsuario")] // Se reciba el parámetro idUsuario desde la URL. El cuerpo de la petición siempre está vacío.
+        public List<Producto> TraerProductosConIdUsuario(long idUsuario)
         {
-            return ProductoHandler.TraerProductos();
+            return ProductoHandler.TraerProductosConIdUsuario(idUsuario);
         }
 
 

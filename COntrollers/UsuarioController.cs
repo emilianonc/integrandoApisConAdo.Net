@@ -8,12 +8,12 @@ namespace Emiliano_Chiapponi.Controllers
 
     public class UsuarioController : ControllerBase
     {
-        // Probado desde Postman:  (Devuelve: los 2 usuarios en BD y un "200 OK" )
-        // (GET "http://localhost:5232/Usuario" Body none)
-        [HttpGet(Name = "TraerUsuarios")] // No se reciben argumentos desde la URL. El cuerpo de la petición siempre está vacío.
-        public List<Usuario> TraerUsuarios()
+        // Probado desde Postman:  (Devuelve: Los atributos del objeto Usuario cuyo NombreUsuario es igual al argumento y un "200 OK" )
+        // (GET "http://localhost:5232/Usuario" Params KEY = nombreUsuario, VALUE = eperez123)
+        [HttpGet(Name = "TraerUsuario")] // Se recibe el parámetro nombreUsuario desde la URL. El cuerpo de la petición siempre está vacío.
+        public Usuario TraerUsuario(string nombreUsuario)
         {
-            return UsuarioHandler.TraerUsuarios();
+            return UsuarioHandler.TraerUsuario(nombreUsuario);
         }
 
 

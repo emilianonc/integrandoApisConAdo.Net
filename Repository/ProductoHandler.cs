@@ -55,7 +55,43 @@ namespace Emiliano_Chiapponi
         }
 
 
-        
+
+        public static List<Producto> TraerProductosConIdUsuario(long idUsuario) // Traer Productos: Método que debe traer todos los productos cargados en la basecuyo IdUsuario = idUsuario
+        {
+            List<Producto> listaProductos = new List<Producto>(); // Creo una lista de productos. Va a ser lo que devuelva el método.
+
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString)) // Creo un objeto de tipo SqlConnection con el connectionString de mi BD.
+            {
+                using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [SistemaGestion].[dbo].[Producto] WHERE IdUsuario = @idUsuario", sqlConnection)) // Creo un objeto SqlCommand con una query que selecciona todas las columnas de la tabla Producto cuyo valor de IdUsuario = idUsuario.
+                {
+                    var sqlParameter = new SqlParameter();          // Creo un nuevo objeto SqlParameter, para expecificar "@idUsuario" en la query utilizada en el objeto SqlCommand.
+                    sqlParameter.ParameterName = "idUsuario";       // Asigno nombre a sqlParameter.
+                    sqlParameter.SqlDbType = SqlDbType.BigInt;     // Asigno el tipo de dato que tiene sqlParameter.
+                    sqlParameter.Value = idUsuario;                 // Asigno valor a sqlParameter.
+                    sqlCommand.Parameters.Add(sqlParameter);        // Agrego sqlParameter a la lista de parametros del objeto SqlCommand creado.
+
+                    sqlConnection.Open(); // Abro la conexión con la BD.
+
+                    using (SqlDataReader sqlDataReader = sqlCommand.ExecuteReader()) // Creo objeto SqlDataReader para ir explorando la BD.
+                    {
+                        if (sqlDataReader.HasRows) // Me aseguro que haya filas para leer.
+                        {
+                            while (sqlDataReader.Read()) // En cada fila leida.
+                            {
+                                Producto producto = InicializarProductoDesdeBD(sqlDataReader); // Creo objeto producto para alamcenar los atributos leidos en la fila actual de la BD.
+
+                                listaProductos.Add(producto); // Agrego el objeto producto a la lista "listaProductos".
+                            }
+                        }
+                    }
+                    sqlConnection.Close(); // Cierro la conexión con la BD.
+                }
+            }
+            return listaProductos;
+        }
+
+
+
         public static Producto ConsultarStock(Producto producto) 
         {
             using (SqlConnection sqlConnection = new SqlConnection(connectionString)) // Creo un objeto de tipo SqlConnection con el connectionString de mi BD.

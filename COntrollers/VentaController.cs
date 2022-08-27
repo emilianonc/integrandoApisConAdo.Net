@@ -8,6 +8,17 @@ namespace Emiliano_Chiapponi.Controllers
 
     public class VentaController : ControllerBase
     {
+        // Probado desde Postman: (Devuelve las ventas que contienen productos cuyo IdUsuario = idUsuario en la tabla Producto y un "200 OK")
+        // (GET "http://localhost:5232/Venta" Params KEY = idUsuario, VALUE = 2)
+        // GET http://localhost:5232/Venta?idUsuario=2
+        [HttpGet(Name = "TraerVentas")] // Se reciba el parámetro idUsuario desde la URL. El cuerpo de la petición siempre está vacío.
+        public List<Venta> TraerVentas(long idUsuario)
+        {
+            return VentaHandler.TraerVentas(idUsuario);
+        }
+
+
+
         // Probado desde Postman: OK (Devuelve TRUE y un "200 OK". Se valida que se agrego la Venta, los ProductoVendido y se actualizó el stock en Producto)
         // (POST "http://localhost:5232/Venta" Body raw JSON)
         /* [

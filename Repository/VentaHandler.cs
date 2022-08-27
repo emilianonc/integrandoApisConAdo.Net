@@ -12,7 +12,7 @@ namespace Emiliano_Chiapponi
 
         public const string connectionString = "Server=DESKTOP-2QV2INM;Database=SistemaGestion;Trusted_Connection=True";
 
-        public static List<Venta> TraerVentas(int idUsuario) // Traer Ventas: método que debe traer todas las ventas de la base que contienen productos de un determinado Usuario.
+        public static List<Venta> TraerVentas(long idUsuario) // Traer Ventas: método que debe traer todas las ventas de la base que contienen productos de un determinado Usuario.
         {
             List<Venta> ventas = new List<Venta>(); // Creo una lista de objetos de clase "Venta". Va a ser lo que devuelva el método.
         
